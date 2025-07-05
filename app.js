@@ -23,12 +23,16 @@ let handColors = {Left: colorLeft.value, Right: colorRight.value};
 let prevPoints = {Left: null, Right: null};
 const hoverTimers = new Map();
 
-function resizeCanvases(width, height) {
+function resizeCanvases() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
   [videoCanvas, drawCanvas].forEach(c => {
     c.width = width;
     c.height = height;
   });
 }
+
+window.addEventListener('resize', resizeCanvases);
 
 function clearDrawing() {
   drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
@@ -150,16 +154,17 @@ const camera = new Camera(videoElement, {
 camera.start();
 
 function onResults(results) {
-  resizeCanvases(results.image.width, results.image.height);
+  resizeCanvases();
   videoCtx.save();
   videoCtx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
+  videoCtx.translate(videoCanvas.width, 0);
+  videoCtx.scale(-1, 1);
   if (showVideo) {
     videoCtx.drawImage(results.image, 0, 0, videoCanvas.width, videoCanvas.height);
   } else {
     videoCtx.fillStyle = '#000';
     videoCtx.fillRect(0, 0, videoCanvas.width, videoCanvas.height);
   }
-  videoCtx.restore();
 
   if (results.multiHandLandmarks) {
     results.multiHandLandmarks.forEach((landmarks, index) => {
@@ -167,17 +172,17 @@ function onResults(results) {
       drawConnectors(videoCtx, landmarks, HAND_CONNECTIONS, {color: '#0f0'});
       drawLandmarks(videoCtx, landmarks, {color: '#0f0', fillColor: '#0f0'});
 
-      const x = landmarks[8].x * videoCanvas.width;
+      const x = (1 - landmarks[8].x) * videoCanvas.width;
       const y = landmarks[8].y * videoCanvas.height;
 
       const overControl = [btnVid, btnClear, btnColor, btnThick, btnSample, colorLeft, colorRight].some(el => within(el, x, y));
 
       if (isPointing(landmarks) && !overControl) {
         if (sampleMode) {
-          const base = landmarks[5];
-          const tip = landmarks[8];
-          const dx = (tip.x - base.x) * videoCanvas.width;
-          const dy = (tip.y - base.y) * videoCanvas.height;
+          const baseX = (1 - landmarks[5].x) * videoCanvas.width;
+          const baseY = landmarks[5].y * videoCanvas.height;
+          const dx = x - baseX;
+          const dy = y - baseY;
           const sx = x + dx * 0.5;
           const sy = y + dy * 0.5;
           handColors[hand] = sampleColor(sx, sy);
@@ -205,4 +210,5 @@ function onResults(results) {
     resetPoint('Right');
     ['btn-vid','btn-clear','btn-color','btn-thick','btn-sample','color-left','color-right'].forEach(cancelHover);
   }
+  videoCtx.restore();
 }
