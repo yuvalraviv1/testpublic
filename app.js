@@ -125,7 +125,10 @@ function startHover(id) {
 }
 
 function updateHover(id) {
-  if (!hoverTimers.has(id)) return false;
+  if (!hoverTimers.has(id)) {
+    startHover(id);
+    return false;
+  }
   const start = hoverTimers.get(id);
   const diff = performance.now() - start;
   const progress = Math.min(diff / 1500, 1);
