@@ -77,12 +77,18 @@ function isPointing(lms) {
 }
 
 function within(element, x, y) {
-  const rect = element.getBoundingClientRect();
-  const scaleX = videoCanvas.width / rect.width;
-  const scaleY = videoCanvas.height / rect.height;
-  const ex = x / scaleX + rect.left;
-  const ey = y / scaleY + rect.top;
-  return ex >= rect.left && ex <= rect.right && ey >= rect.top && ey <= rect.bottom;
+  const elementRect = element.getBoundingClientRect();
+  const canvasRect = videoCanvas.getBoundingClientRect();
+  const scaleX = canvasRect.width / videoCanvas.width;
+  const scaleY = canvasRect.height / videoCanvas.height;
+  const pageX = x * scaleX + canvasRect.left;
+  const pageY = y * scaleY + canvasRect.top;
+  return (
+    pageX >= elementRect.left &&
+    pageX <= elementRect.right &&
+    pageY >= elementRect.top &&
+    pageY <= elementRect.bottom
+  );
 }
 
 function startHover(id) {
