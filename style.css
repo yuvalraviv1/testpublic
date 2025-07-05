@@ -77,3 +77,51 @@ canvas {
   pointer-events: none;
   font-size: 14px;
 }
+
+.hidden { display: none; }
+
+#size-overlay {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  right: 10px;
+  width: 20px;
+  background: rgba(255,255,255,0.2);
+}
+
+#size-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #0af;
+}
+
+#color-overlay {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  width: 120px;
+  padding: 4px;
+  background: rgba(0,0,0,0.6);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+#color-overlay .swatch {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #fff;
+}
+
+#mode-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  padding: 4px 6px;
+  border-radius: 4px;
+  pointer-events: none;
+}

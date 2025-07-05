@@ -12,13 +12,15 @@ A browser-only hand recognition application with finger brush functionality and 
 
 ### Control Buttons (HTML UI)
 
-Five HTML `<button>` elements sit overlayed at the top center of the canvas:
+Seven HTML `<button>` elements sit overlayed at the top center of the canvas:
 
 1. **VID**: Toggle the camera feed visibility behind the drawing canvas.
 2. **CLR**: Clear all strokes from the drawing canvas.
 3. **COL**: Cycle through a predefined list of brush colors.
 4. **THK**: Cycle through a predefined list of brush thicknesses.
 5. **SMP**: Toggle sampling mode, where the brush color is taken from the live video at the fingertip offset.
+6. **SIZ**: Adjust brush thickness via Brush-Size Mode.
+7. **CLR**: Choose brush color via Color-Select Mode.
 
 Additionally, two color-picker inputs (`<input type="color">`) on the left and right edges let users choose specific colors for each hand.
 
@@ -69,9 +71,20 @@ Additionally, two color-picker inputs (`<input type="color">`) on the left and r
    * Use **CLR** to reset the canvas.
    * Use **VID** to show/hide the live camera feed.
 
-5. **Exit**:
+5. **Brush Size & Color Modes**:
+
+   * Hover over **SIZ** for ~0.8 s to enter brush-size mode. Slide your right index finger along the right edge to change thickness. Exit by holding your left hand open for ~1 s.
+   * Hover over **CLR** for ~0.8 s to open the palette. Hover over a swatch for 0.5 s to pick a color. Exit with the same open left hand gesture.
+
+
+6. **Exit**:
 
    * Close the browser tab to end the session.
+
+### Modes
+
+* **Brush-Size Mode** – Drawing pauses while a size bar appears on the right edge. Move your right hand up or down to change thickness. Exit with an open left hand.
+* **Color-Select Mode** – A color panel appears on the left. Hover over a swatch with your right index finger to set the brush color. Exit with an open left hand.
 
 ## How It Works
 
