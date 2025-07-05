@@ -65,3 +65,15 @@ canvas {
 
 #color-left { left: 10px; }
 #color-right { right: 10px; }
+
+#debug {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  font-size: 14px;
+}
