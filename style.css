@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  color: #fff;
+  font-family: sans-serif;
+}
+
+#app {
+  position: relative;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#controls {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+}
+
+#controls button {
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  padding: 4px 6px;
+  cursor: pointer;
+  position: relative;
+}
+
+#controls button::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(#0f0 calc(var(--progress,0) * 1%), transparent 0);
+  -webkit-mask: linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0);
+}
+
+.color-picker {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#color-left { left: 10px; }
+#color-right { right: 10px; }
