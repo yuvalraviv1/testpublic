@@ -22,7 +22,7 @@ Seven HTML `<button>` elements sit overlayed at the top center of the canvas:
 6. **SIZ**: Adjust brush thickness (1–100 px) via Brush-Size Mode.
 7. **CLR**: Choose brush color via Color-Select Mode.
 
-Additionally, two color-picker inputs (`<input type="color">`) on the left and right edges let users choose specific colors for each hand.
+Additionally, a color-picker input (`<input type="color">`) on the right edge lets you choose a specific color for the right hand. The left-edge color picker is hidden until Color-Select Mode is activated.
 
 ## Requirements
 
@@ -53,7 +53,7 @@ Additionally, two color-picker inputs (`<input type="color">`) on the left and r
 
    * Point with your index finger (all other fingers curled).
    * Move your finger to draw on the canvas. Drawing stops when over a control button or color picker.
-   * Choose specific brush colors for each hand via the color pickers.
+   * Choose brush colors using the right-hand color picker or, while in Color-Select Mode, the left-hand picker.
 
 2. **Button Activation**:
 
