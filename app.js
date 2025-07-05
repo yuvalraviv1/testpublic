@@ -33,6 +33,8 @@ function resizeCanvases() {
 }
 
 window.addEventListener('resize', resizeCanvases);
+// Set initial canvas sizes once on load
+resizeCanvases();
 
 function clearDrawing() {
   drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
@@ -154,7 +156,6 @@ const camera = new Camera(videoElement, {
 camera.start();
 
 function onResults(results) {
-  resizeCanvases();
   videoCtx.save();
   videoCtx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
   videoCtx.translate(videoCanvas.width, 0);
