@@ -11,6 +11,7 @@ const btnThick = document.getElementById('btn-thick');
 const btnSample = document.getElementById('btn-sample');
 const colorLeft = document.getElementById('color-left');
 const colorRight = document.getElementById('color-right');
+const debugEl = document.getElementById('debug');
 
 let showVideo = true;
 let sampleMode = false;
@@ -22,6 +23,10 @@ const thicknesses = [2,4,6,8];
 let handColors = {Left: colorLeft.value, Right: colorRight.value};
 let prevPoints = {Left: null, Right: null};
 const hoverTimers = new Map();
+
+function setDebug(text) {
+  if (debugEl) debugEl.textContent = text;
+}
 
 function resizeCanvases() {
   const width = window.innerWidth;
@@ -74,6 +79,29 @@ function isPointing(lms) {
     !isFingerExtended(lms,12,10) &&
     !isFingerExtended(lms,16,14) &&
     !isFingerExtended(lms,20,18);
+}
+
+function isThumbsUp(lms) {
+  return isFingerExtended(lms,4,3) &&
+    !isFingerExtended(lms,8,6) &&
+    !isFingerExtended(lms,12,10) &&
+    !isFingerExtended(lms,16,14) &&
+    !isFingerExtended(lms,20,18);
+}
+
+function isOpenHand(lms) {
+  return isFingerExtended(lms,4,3) &&
+    isFingerExtended(lms,8,6) &&
+    isFingerExtended(lms,12,10) &&
+    isFingerExtended(lms,16,14) &&
+    isFingerExtended(lms,20,18);
+}
+
+function getGesture(lms) {
+  if (isPointing(lms)) return 'pointing';
+  if (isThumbsUp(lms)) return 'thumbs up';
+  if (isOpenHand(lms)) return 'open hand';
+  return 'unknown';
 }
 
 function within(element, x, y) {
@@ -174,6 +202,7 @@ function onResults(results) {
   }
 
   if (results.multiHandLandmarks) {
+    let debugParts = [];
     results.multiHandLandmarks.forEach((landmarks, index) => {
       const hand = results.multiHandedness[index].label; // Left or Right
       drawConnectors(videoCtx, landmarks, HAND_CONNECTIONS, {color: '#0f0'});
@@ -183,8 +212,10 @@ function onResults(results) {
       const y = landmarks[8].y * videoCanvas.height;
 
       const overControl = [btnVid, btnClear, btnColor, btnThick, btnSample, colorLeft, colorRight].some(el => within(el, x, y));
+      const gesture = getGesture(landmarks);
+      let msg = `${hand}: ${gesture}`;
 
-      if (isPointing(landmarks) && !overControl) {
+      if (gesture === 'pointing' && !overControl) {
         if (sampleMode) {
           const baseX = (1 - landmarks[5].x) * videoCanvas.width;
           const baseY = landmarks[5].y * videoCanvas.height;
@@ -196,7 +227,8 @@ function onResults(results) {
         }
         drawLine(hand, x, y);
         cancelHover(hand);
-      } else if (isPointing(landmarks) && overControl) {
+        msg += ` drawing (${Math.round(x)}, ${Math.round(y)}) color ${handColors[hand]}`;
+      } else if (gesture === 'pointing' && overControl) {
         resetPoint(hand);
         let triggered = false;
         if (within(btnVid, x, y)) triggered = updateHover('btn-vid');
@@ -207,15 +239,19 @@ function onResults(results) {
         if (!triggered && within(btnSample, x, y)) triggered = updateHover('btn-sample'); else cancelHover('btn-sample');
         if (!triggered && within(colorLeft, x, y)) startHover('color-left'); else cancelHover('color-left');
         if (!triggered && within(colorRight, x, y)) startHover('color-right'); else cancelHover('color-right');
+        msg += ' over control';
       } else {
         resetPoint(hand);
-      ['btn-vid','btn-clear','btn-color','btn-thick','btn-sample','color-left','color-right'].forEach(cancelHover);
+        ['btn-vid','btn-clear','btn-color','btn-thick','btn-sample','color-left','color-right'].forEach(cancelHover);
       }
+      debugParts.push(msg);
     });
+    setDebug(debugParts.join(' | '));
   } else {
     resetPoint('Left');
     resetPoint('Right');
     ['btn-vid','btn-clear','btn-color','btn-thick','btn-sample','color-left','color-right'].forEach(cancelHover);
+    setDebug('no hands');
   }
   videoCtx.restore();
 }
