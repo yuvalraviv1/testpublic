@@ -283,7 +283,11 @@ function onResults(results) {
     if (results.multiHandLandmarks) {
       let debugParts = [];
       results.multiHandLandmarks.forEach((landmarks, index) => {
-        const hand = results.multiHandedness[index].label; // Left or Right
+        let hand = results.multiHandedness[index].label; // Left or Right from camera
+        // Because the video is mirrored, swap the handedness labels so that
+        // they match the user's perspective
+        if (hand === 'Left') hand = 'Right';
+        else if (hand === 'Right') hand = 'Left';
         drawConnectors(videoCtx, landmarks, HAND_CONNECTIONS, {color: '#0f0'});
         drawLandmarks(videoCtx, landmarks, {color: '#0f0', fillColor: '#0f0'});
 
