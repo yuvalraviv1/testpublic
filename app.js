@@ -221,12 +221,16 @@ function enterColorMode() {
   appState.mode = Mode.COLOR;
   colorOverlay.classList.remove('hidden');
   sizeOverlay.classList.add('hidden');
+  colorLeft.classList.remove('hidden');
+  colorRight.classList.remove('hidden');
 }
 
 function exitModes() {
   appState.mode = Mode.DRAW;
   sizeOverlay.classList.add('hidden');
   colorOverlay.classList.add('hidden');
+  colorLeft.classList.add('hidden');
+  colorRight.classList.add('hidden');
 }
 
 function updateSizeOverlay() {
