@@ -15,16 +15,24 @@ const colorLeft = document.getElementById('color-left');
 const colorRight = document.getElementById('color-right');
 const sizeOverlay = document.getElementById('size-overlay');
 const sizeBar = document.getElementById('size-bar');
+const sizeIndicator = document.getElementById('size-indicator');
 const colorOverlay = document.getElementById('color-overlay');
 const modeBadge = document.getElementById('mode-badge');
 const debugEl = document.getElementById('debug');
 
 let showVideo = true;
 let sampleMode = false;
-const colors = ['#003366', '#ff0000', '#00ff00', '#0000ff'];
+const colors = [
+  '#003366', '#ff0000', '#00ff00', '#0000ff',
+  '#ffff00', '#ff00ff', '#00ffff', '#ffa500',
+  '#800080', '#008080', '#ffffff', '#000000'
+];
 let colorIndex = 0;
 let thicknessIndex = 1;
 const thicknesses = [2,4,6,8];
+const MIN_SIZE = 1;
+const MAX_SIZE = 100;
+let brushSize = thicknesses[thicknessIndex];
 
 colors.forEach(c => {
   const sw = document.createElement('div');
@@ -83,6 +91,7 @@ function cycleColor() {
 
 function cycleThickness() {
   thicknessIndex = (thicknessIndex + 1) % thicknesses.length;
+  brushSize = thicknesses[thicknessIndex];
   updateSizeOverlay();
 }
 
@@ -184,7 +193,7 @@ function sampleColor(x, y) {
 function drawLine(hand, x, y) {
   const prev = prevPoints[hand];
   drawCtx.strokeStyle = handColors[hand];
-  drawCtx.lineWidth = thicknesses[thicknessIndex];
+  drawCtx.lineWidth = brushSize;
   drawCtx.lineCap = 'round';
   drawCtx.beginPath();
   if (prev) {
@@ -205,6 +214,7 @@ function enterSizeMode() {
   appState.mode = Mode.SIZE;
   sizeOverlay.classList.remove('hidden');
   colorOverlay.classList.add('hidden');
+  updateSizeOverlay();
 }
 
 function enterColorMode() {
@@ -220,8 +230,10 @@ function exitModes() {
 }
 
 function updateSizeOverlay() {
-  const ratio = thicknessIndex / (thicknesses.length - 1);
+  const ratio = (brushSize - MIN_SIZE) / (MAX_SIZE - MIN_SIZE);
   sizeBar.style.height = `${ratio * 100}%`;
+  sizeIndicator.style.width = `${brushSize}px`;
+  sizeIndicator.style.height = `${brushSize}px`;
 }
 
 function selectColor(color) {
@@ -229,7 +241,14 @@ function selectColor(color) {
   handColors.Right = color;
   colorLeft.value = color;
   colorRight.value = color;
+  document.querySelectorAll('#color-overlay .swatch').forEach(sw => {
+    if (sw.dataset.color === color) sw.classList.add('selected');
+    else sw.classList.remove('selected');
+  });
 }
+
+// highlight default color
+selectColor(handColors.Right);
 
 const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
 hands.setOptions({
@@ -320,8 +339,8 @@ function onResults(results) {
         } else if (appState.mode === Mode.SIZE) {
           resetPoint(hand);
           if (hand === 'Right' && gesture === 'pointing') {
-            const idx = Math.round((1 - landmarks[8].y) * (thicknesses.length - 1));
-            thicknessIndex = Math.max(0, Math.min(thicknesses.length - 1, idx));
+            const val = Math.round((1 - landmarks[8].y) * (MAX_SIZE - MIN_SIZE)) + MIN_SIZE;
+            brushSize = Math.max(MIN_SIZE, Math.min(MAX_SIZE, val));
             updateSizeOverlay();
           }
         } else if (appState.mode === Mode.COLOR) {

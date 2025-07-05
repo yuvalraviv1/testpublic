@@ -19,7 +19,7 @@ Seven HTML `<button>` elements sit overlayed at the top center of the canvas:
 3. **COL**: Cycle through a predefined list of brush colors.
 4. **THK**: Cycle through a predefined list of brush thicknesses.
 5. **SMP**: Toggle sampling mode, where the brush color is taken from the live video at the fingertip offset.
-6. **SIZ**: Adjust brush thickness via Brush-Size Mode.
+6. **SIZ**: Adjust brush thickness (1–100 px) via Brush-Size Mode.
 7. **CLR**: Choose brush color via Color-Select Mode.
 
 Additionally, two color-picker inputs (`<input type="color">`) on the left and right edges let users choose specific colors for each hand.
@@ -73,8 +73,8 @@ Additionally, two color-picker inputs (`<input type="color">`) on the left and r
 
 5. **Brush Size & Color Modes**:
 
-   * Hover over **SIZ** for ~0.8 s to enter brush-size mode. Slide your right index finger along the right edge to change thickness. Exit by holding your left hand open for ~1 s.
-   * Hover over **CLR** for ~0.8 s to open the palette. Hover over a swatch for 0.5 s to pick a color. Exit with the same open left hand gesture.
+   * Hover over **SIZ** for ~0.8 s to enter brush-size mode. Slide your right index finger up or down to set the size (1–100 px). A white circle next to the bar previews the brush. Exit with an open left hand.
+   * Hover over **CLR** for ~0.8 s to open the palette. Hover over a swatch for 0.5 s to pick a color. The chosen swatch displays a “V” check mark. Exit with the same left-hand open gesture.
 
 
 6. **Exit**:
@@ -83,8 +83,8 @@ Additionally, two color-picker inputs (`<input type="color">`) on the left and r
 
 ### Modes
 
-* **Brush-Size Mode** – Drawing pauses while a size bar appears on the right edge. Move your right hand up or down to change thickness. Exit with an open left hand.
-* **Color-Select Mode** – A color panel appears on the left. Hover over a swatch with your right index finger to set the brush color. Exit with an open left hand.
+* **Brush-Size Mode** – Drawing pauses while a size bar appears on the right edge. A white circle previews the current brush size. Move your right hand up or down to change it, then exit with an open left hand.
+* **Color-Select Mode** – A color panel appears on the left. Hover over a swatch with your right index finger for 0.5 s to set the brush color. The selected swatch shows a “V” mark. Exit with an open left hand.
 
 ## How It Works
 

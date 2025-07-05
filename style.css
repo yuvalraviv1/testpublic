@@ -114,6 +114,26 @@ canvas {
   width: 24px;
   height: 24px;
   border: 1px solid #fff;
+  position: relative;
+}
+
+#color-overlay .swatch.selected::after {
+  content: 'V';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+}
+
+#size-indicator {
+  position: absolute;
+  right: 40px;
+  bottom: 10px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 #mode-badge {
