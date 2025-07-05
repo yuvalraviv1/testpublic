@@ -8,6 +8,7 @@ A browser-only hand recognition application with finger brush functionality and 
 * **Finger Brush**: Draw on an HTML `<canvas>` by pointing with your index finger. Both hands are supported; the right hand draws in a default dark blue ink and the left in white (customizable).
 * **Gesture Controls**: Activate HTML buttons by hovering your index finger over them for 1.5 seconds, indicated by a radial progress overlay.
 * **Color Sampling Mode**: Sample brush color from the live camera feed a short distance ahead of your fingertip each animation frame.
+* **Mirrored Full Screen Video**: The camera feed fills the entire browser window and is displayed like a mirror for easier interaction.
 
 ### Control Buttons (HTML UI)
 
