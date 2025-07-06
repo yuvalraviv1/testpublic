@@ -46,7 +46,7 @@ const UI_HOVER_MS = 800;
 const BUTTON_HOVER_MS = 1500;
 const SWATCH_HOVER_MS = 500;
 
-const Mode = { DRAW: 'draw', SIZE: 'size', COLOR: 'color' };
+const Mode = { DRAW: 'draw', SIZE: 'size', COLOR: 'color', PAUSE: 'pause' };
 let appState = { mode: Mode.DRAW };
 let leftOpenStart = 0;
 let swatchTimers = new Map();
@@ -283,6 +283,14 @@ function onResults(results) {
   }
 
     if (results.multiHandLandmarks) {
+      const openDetected = results.multiHandLandmarks.some(lms => isOpenHand(lms));
+      if (appState.mode === Mode.DRAW && openDetected) {
+        appState.mode = Mode.PAUSE;
+        resetPoint('Left');
+        resetPoint('Right');
+      } else if (appState.mode === Mode.PAUSE && !openDetected) {
+        appState.mode = Mode.DRAW;
+      }
       let debugParts = [];
       results.multiHandLandmarks.forEach((landmarks, index) => {
         let hand = results.multiHandedness[index].label; // Left or Right from camera
@@ -342,6 +350,9 @@ function onResults(results) {
             resetPoint(hand);
             ['btn-vid','btn-clear','btn-color','btn-thick','btn-sample','btn-size','btn-clr','color-left','color-right'].forEach(cancelHover);
           }
+        } else if (appState.mode === Mode.PAUSE) {
+          resetPoint(hand);
+          ['btn-vid','btn-clear','btn-color','btn-thick','btn-sample','btn-size','btn-clr','color-left','color-right'].forEach(cancelHover);
         } else if (appState.mode === Mode.SIZE) {
           resetPoint(hand);
           if (hand === 'Right' && gesture === 'pointing') {
