@@ -65,6 +65,7 @@ Additionally, a color-picker input (`<input type="color">`) on the right edge le
 
    * Toggle sampling mode with the **SMP** button.
    * While active, the brush color updates every frame to match the video pixel under an offset from your fingertip.
+   * Sampling is performed before drawing the green hand overlay so the sampled color reflects the video content only.
 
 4. **Clearing & Toggle**:
 
