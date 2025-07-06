@@ -15,7 +15,7 @@ A browser-only hand recognition application with finger brush functionality and 
 Seven HTML `<button>` elements sit overlayed at the top center of the canvas:
 
 1. **VID**: Toggle the camera feed visibility behind the drawing canvas.
-2. **CLR**: Clear all strokes from the drawing canvas.
+2. **CLN**: Clear all strokes from the drawing canvas.
 3. **COL**: Cycle through a predefined list of brush colors.
 4. **THK**: Cycle through a predefined list of brush thicknesses.
 5. **SMP**: Toggle sampling mode, where the brush color is taken from the live video at the fingertip offset.
@@ -68,7 +68,7 @@ Additionally, a color-picker input (`<input type="color">`) on the right edge le
 
 4. **Clearing & Toggle**:
 
-   * Use **CLR** to reset the canvas.
+   * Use **CLN** to reset the canvas.
    * Use **VID** to show/hide the live camera feed.
 
 5. **Brush Size & Color Modes**:
