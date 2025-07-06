@@ -290,9 +290,6 @@ function onResults(results) {
         // they match the user's perspective
         if (hand === 'Left') hand = 'Right';
         else if (hand === 'Right') hand = 'Left';
-        drawConnectors(videoCtx, landmarks, HAND_CONNECTIONS, {color: '#0f0'});
-        drawLandmarks(videoCtx, landmarks, {color: '#0f0', fillColor: '#0f0'});
-
         const x = (1 - landmarks[8].x) * videoCanvas.width;
         const y = landmarks[8].y * videoCanvas.height;
 
@@ -367,6 +364,8 @@ function onResults(results) {
             swatchTimers.clear();
           }
         }
+        drawConnectors(videoCtx, landmarks, HAND_CONNECTIONS, {color: '#0f0'});
+        drawLandmarks(videoCtx, landmarks, {color: '#0f0', fillColor: '#0f0'});
         debugParts.push(msg);
       });
       setDebug(debugParts.join(' | '));
